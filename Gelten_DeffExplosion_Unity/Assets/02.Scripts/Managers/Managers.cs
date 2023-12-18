@@ -21,7 +21,12 @@ public class Managers : MonoBehaviour
             s_instance = go.GetComponent<Managers>();
         }
     }
+    GameManager _game = new GameManager();
     SoundManager _sound = new SoundManager();
+    ResourceManager _resource = new ResourceManager();
 
+    public static ResourceManager Resource { get { return Instance._resource; } }
+
+    public static GameManager Game { get { return Instance._game; } }
     public static SoundManager Sound { get { return Instance._sound; } }
 }
