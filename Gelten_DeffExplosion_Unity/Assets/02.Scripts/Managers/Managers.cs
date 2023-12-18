@@ -24,9 +24,11 @@ public class Managers : MonoBehaviour
     GameManager _game = new GameManager();
     SoundManager _sound = new SoundManager();
     ResourceManager _resource = new ResourceManager();
+    GridManager _grid = new GridManager();
 
     public static ResourceManager Resource { get { return Instance._resource; } }
 
     public static GameManager Game { get { return Instance._game; } }
     public static SoundManager Sound { get { return Instance._sound; } }
+    public static GridManager Grid { get { return Instance._grid; } }
 }

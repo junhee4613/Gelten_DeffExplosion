@@ -16,14 +16,15 @@ public abstract class InteractionScripts
             case InteractionActions.none:
                 break;
             case InteractionActions.climbing:
-                UnityEngine.Object[] tempOBJ = new UnityEngine.Object[2];
-                tempOBJ[0] = PC.transform;
-                tempOBJ[1] = PC.rb;
+                UnityEngine.Object[] tempOBJ = new UnityEngine.Object[1];
+                tempOBJ[0] = PC;
                 _init(tempOBJ);
                 break;
             case InteractionActions.removeStatic:
+                // TODO : 정전기 제거 스크립트 구현 시 해당 스크립트 작업 필요
                 break;
             case InteractionActions.grabItem:
+                // TODO : 그랩 아이템 스크립트 구현 시 해당 스크립트 작업 필요
                 break;
         }
     }
@@ -50,8 +51,11 @@ public class Climbing : InteractionScripts
     }
     protected override void _init(UnityEngine.Object[] obj)
     {
-        playerTR = obj[0] as Transform;
-        playerRB = obj[1] as Rigidbody;
+        PlayerController tempPC = obj[0] as PlayerController;
+        playerTR = tempPC.transform;
+        playerRB = tempPC.rb;
+        grabStartPos = tempPC.grapStartPosition;
+
         playerRB.useGravity = false;
     }
     protected override void Interaction(Vector3 updatedVec)
@@ -70,6 +74,7 @@ public class Climbing : InteractionScripts
         playerRB.useGravity = true;
         playerTR = null;
         playerRB = null;
+        grabStartPos = Vector3.zero;
     }
 }
 public enum InteractionActions
