@@ -9,7 +9,6 @@ public class GridRuler : MonoBehaviour
     [SerializeField] Vector3Int gridEndPos;
     public float cellSize;
     public bool showGizmo;
-    public HashSet<>
 
     void Start()
     {

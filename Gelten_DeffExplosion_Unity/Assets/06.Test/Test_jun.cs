@@ -4,33 +4,18 @@ using UnityEngine;
 //time.timescale은 코루틴 써도 멈춘다.
 public class Test_jun : MonoBehaviour
 {
-    [Range(5, 10)]
+    [Range(1, 5)]
     public float in_or_out;
+    public Camera main_camera;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Test());
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-    IEnumerator Test()
-    {
-        Debug.Log("좋은 아침입니다.");
-        yield return new WaitForSeconds(2);
-        Debug.Log("좋은 아침입니다.");
-        yield return new WaitForSeconds(2);
-        Debug.Log("좋은 아침입니다.");
-        yield return new WaitForSeconds(2);
-        Debug.Log("좋은 아침입니다.");
-        yield return new WaitForSeconds(2);
-        Debug.Log("좋은 아침입니다.");
-        yield return new WaitForSeconds(2);
-        Debug.Log("좋은 아침입니다.");
-        yield return new WaitForSeconds(2);
-
+        main_camera.fieldOfView = in_or_out * 12;
     }
 }
