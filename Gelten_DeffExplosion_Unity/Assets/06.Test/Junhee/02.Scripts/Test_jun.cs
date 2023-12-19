@@ -1,19 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Test3_jun_move : MonoBehaviour
+//time.timescale¿∫ ƒ⁄∑Á∆æ Ω·µµ ∏ÿ√·¥Ÿ.
+public class Test_jun : MonoBehaviour
 {
-    Transform tr;
+    public float in_or_out = 10;
+    public Camera main_camera;
     // Start is called before the first frame update
     void Start()
     {
-        tr = GetComponent<Transform>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        tr.position += transform.forward * Time.deltaTime;
+        main_camera.fieldOfView = in_or_out * 6;
     }
 }
