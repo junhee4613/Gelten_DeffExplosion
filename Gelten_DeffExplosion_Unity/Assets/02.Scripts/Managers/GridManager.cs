@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GridManager
 {
-    HashSet<Vector3Int> interactionGrid = new HashSet<Vector3Int>();
+    public HashSet<Vector3Int> interactionGrid = new HashSet<Vector3Int>();
     private Vector3Int AddInteractions { set { interactionGrid.Add(value); } }
 
     private Dictionary<Vector3Int,InteractionScripts> interactionObjects =  new Dictionary<Vector3Int,InteractionScripts>();
     public Dictionary<Vector3Int, InteractionScripts> Interaction { get { return interactionObjects; } }
-
-    public void GridInteractionSetting(InteractionActions actions,Vector3Int pos)
+    //heoyoon : 씬 전환시 위에있는 모든 딕셔너리와 해쉬셋 초기화 필요
+    public void GridInteractionSetting(InteractionActions actions,Vector3Int pos, InteractionDetailPosition tempDetail)
     {
         if (!interactionGrid.Contains(pos))
         {
@@ -22,7 +22,7 @@ public class GridManager
                     break;
                 case InteractionActions.climbing:
                     AddInteractions = pos;
-                    interactionObjects.Add(pos, new Climbing());
+                    interactionObjects.Add(pos, new Climbing {detail = new InteractionDetailPosition {size = tempDetail.size, x= tempDetail.y,y= tempDetail.y,z= tempDetail.z, } });
                     break;
                 case InteractionActions.removeStatic:
                     AddInteractions = pos;

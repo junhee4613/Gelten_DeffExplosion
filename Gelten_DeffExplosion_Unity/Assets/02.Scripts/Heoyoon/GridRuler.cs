@@ -5,36 +5,50 @@ using UnityEngine;
 public class GridRuler : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] Vector3Int gridStartPos;
-    [SerializeField] Vector3Int gridEndPos;
     public float cellSize;
     public bool showAreaGizmo;
-    public InteractionRegisterClass[] interactionRegist; 
+    public InteractionRegisterClass[] interactionRegist;
 
     void Awake()
     {
         for (int i = 0; i < interactionRegist.Length; i++)
         {
-            Managers.Grid.GridInteractionSetting(interactionRegist[i].action, interactionRegist[i].position);
+            Managers.Grid.GridInteractionSetting(interactionRegist[i].action, interactionRegist[i].position,interactionRegist[i].details);
         }
     }
     private void OnDrawGizmos()
     {
-        if (showAreaGizmo)
+        for (int i = 0; i < interactionRegist.Length; i++)
         {
-            Gizmos.DrawCube((gridStartPos + gridEndPos) / 2, Vec3Bound(gridStartPos,gridEndPos));
-        }
+            Vector3 detailPos = byteTOFloatedVector(interactionRegist[i].position, interactionRegist[i].details.x, interactionRegist[i].details.y, interactionRegist[i].details.z);
+            switch (interactionRegist[i].action)
+            {
+                case InteractionActions.none:
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawCube(detailPos, interactionRegist[i].details.size);
+                    break;
+                case InteractionActions.climbing:
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawCube(detailPos, interactionRegist[i].details.size);
+                    break;
+                case InteractionActions.removeStatic:
+                    Gizmos.color = Color.cyan;
+                    Gizmos.DrawCube(detailPos, interactionRegist[i].details.size);
+                    break;
+                case InteractionActions.grabItem:
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawCube(detailPos, interactionRegist[i].details.size);
+                    break;
+            }
+        }            
         //TODO : 세팅된 타일맵 기즈모로 그려줘야함
-
     }
-    private Vector3Int Vec3Bound(Vector3Int tempVec, Vector3Int tempVec2)
+    Vector3 byteTOFloatedVector(Vector3Int IntPos,byte detailX, byte detailY, byte detailZ)
     {
-        int returnX = tempVec.x - tempVec2.x;
-        int returnY = tempVec.y - tempVec2.y;
-        int returnZ = tempVec.z - tempVec2.z;
-        Vector3Int returnVector = new Vector3Int((int)Mathf.Sqrt(returnX * returnX), (int)Mathf.Sqrt(returnY * returnY), (int)Mathf.Sqrt(returnZ * returnZ));
+        Vector3 ConvertedValue = new Vector3(detailX - 128, detailY - 128, detailZ - 128);
+        ConvertedValue = (new Vector3(ConvertedValue.x/ 128f,ConvertedValue.y/ 128f, ConvertedValue.z/ 128f)) +IntPos;
 
-        return returnVector;
+        return ConvertedValue;
     }
 }
 [System.Serializable]
@@ -42,4 +56,5 @@ public class InteractionRegisterClass
 {
     public Vector3Int position;
     public InteractionActions action;
+    public InteractionDetailPosition details = new InteractionDetailPosition();
 }
